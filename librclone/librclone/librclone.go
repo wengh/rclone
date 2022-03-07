@@ -17,6 +17,7 @@ import (
 
 	"github.com/rclone/rclone/fs"
 	"github.com/rclone/rclone/fs/accounting"
+	"github.com/rclone/rclone/fs/config"
 	"github.com/rclone/rclone/fs/config/configfile"
 	"github.com/rclone/rclone/fs/log"
 	"github.com/rclone/rclone/fs/rc"
@@ -34,6 +35,24 @@ func Initialize() {
 
 	// Start the logger
 	log.InitLogging()
+
+	// Load the config - this may need to be configurable
+	configfile.Install()
+
+	// Start accounting
+	accounting.Start(ctx)
+}
+
+func InitializeWithConfigPath(path string) {
+	// A subset of initialisation copied from cmd.go
+	// Note that we don't want to pull in anything which depends on pflags
+
+	ctx := context.Background()
+
+	// Start the logger
+	log.InitLogging()
+
+	config.SetConfigPath(path)
 
 	// Load the config - this may need to be configurable
 	configfile.Install()

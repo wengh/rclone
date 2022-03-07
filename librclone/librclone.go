@@ -50,6 +50,13 @@ func RcloneInitialize() {
 	librclone.Initialize()
 }
 
+// RcloneInitializeWithConfigPath initializes rclone as a library using a given config file path
+//
+//export RcloneInitializeWithConfigPath
+func RcloneInitializeWithConfigPath(path *C.char) {
+	librclone.InitializeWithConfigPath(C.GoString(path))
+}
+
 // RcloneFinalize finalizes the library
 //
 //export RcloneFinalize
